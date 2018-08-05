@@ -8,13 +8,22 @@ class AddContact extends Component {
       phone: ''
     };
 
+    onChange = (e) => this.setState({
+        [e.target.name]: e.target.value
+    });
+
+    onSubmit = (e) => {
+      e.preventDefault();
+      console.log(this.state);
+    };
+
     render() {
         const { name, email, phone } = this.state;
         return (
             <div className="my-4 card">
                 <h2 className="card-header">Добавить контакт</h2>
                 <div className="card-body">
-                    <form>
+                    <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label htmlFor="name">Имя</label>
                             <input
@@ -23,6 +32,7 @@ class AddContact extends Component {
                                 placeholder="Введите имя ..."
                                 name="name"
                                 value={name}
+                                onChange={this.onChange}
                             />
                         </div>
                         <div className="form-group">
@@ -33,6 +43,7 @@ class AddContact extends Component {
                                 className="form-control"
                                 placeholder="Введите Email ..."
                                 value={email}
+                                onChange={this.onChange}
                             />
                         </div>
                         <div className="form-group">
@@ -43,6 +54,7 @@ class AddContact extends Component {
                                 className="form-control"
                                 placeholder="Введите Телефон ..."
                                 value={phone}
+                                onChange={this.onChange}
                             />
                         </div>
                         <input
