@@ -8,7 +8,8 @@ class AddContact extends Component {
     state = {
       name: '',
       email: '',
-      phone: ''
+      phone: '',
+      errors: {}
     };
 
     onChange = (e) => this.setState({
@@ -18,6 +19,27 @@ class AddContact extends Component {
     onSubmit = (dispatch, e) => {
       e.preventDefault();
       const { name, email, phone } = this.state;
+
+      // Check For Errors
+      if (name === '') {
+          this.setState({
+              errors: { name: 'Обязательное поле' }
+          });
+          return;
+      }
+      if (email === '') {
+          this.setState({
+              errors: { email: 'Обязательное поле' }
+          });
+          return;
+      }
+      if (phone === '') {
+          this.setState({
+              errors: { phone: 'Обязательное поле' }
+          });
+          return;
+      }
+
       const newContact = {
           id: uuid(),
           name,
@@ -34,12 +56,13 @@ class AddContact extends Component {
       this.setState({
           name: '',
           email: '',
-          phone: ''
+          phone: '',
+          errors: {}
       });
     };
 
     render() {
-        const { name, email, phone } = this.state;
+        const { name, email, phone, errors } = this.state;
 
         return (
             <Consumer>
@@ -57,6 +80,7 @@ class AddContact extends Component {
                                         placeholder="Введите Имя ..."
                                         value={name}
                                         onChange={this.onChange}
+                                        error={errors.name}
                                     />
                                     <TextInputGroup
                                         label="Email"
@@ -65,14 +89,16 @@ class AddContact extends Component {
                                         placeholder="Введите Email ..."
                                         value={email}
                                         onChange={this.onChange}
+                                        error={errors.email}
                                     />
                                     <TextInputGroup
-                                        label="phone"
+                                        label="Телефон"
                                         name="phone"
                                         type="phone"
                                         placeholder="Введите Телефон ..."
                                         value={phone}
                                         onChange={this.onChange}
+                                        error={errors.phone}
                                     />
                                     <input
                                         type="submit"
