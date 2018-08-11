@@ -9,6 +9,7 @@ import Contacts from './components/contacts/Contacts';
 import Header from './components/layout/Header';
 import AddContact from "./components/contacts/AddContact";
 import About from './components/pages/About';
+import NotFound from './components/pages/NotFound';
 
 import { Provider } from "./context";
 
@@ -40,6 +41,10 @@ class App extends Component {
                                 component={About}
                             >
 
+                            </Route>
+                            <Route
+                                component={NotFound}
+                            >
                             </Route>
                         </Switch>
                   </div>
