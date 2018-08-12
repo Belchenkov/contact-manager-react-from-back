@@ -1,125 +1,99 @@
 import React, { Component } from 'react';
-import { Consumer } from "../../context";
-import axios from 'axios';
-
-import TextInputGroup from "../layout/TextInputGroup";
+import TextInputGroup from '../layout/TextInputGroup';
 
 class AddContact extends Component {
-    state = {
+  state = {
+    name: '',
+    email: '',
+    phone: '',
+    errors: {}
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const { name, email, phone } = this.state;
+
+    // Check For Errors
+    if (name === '') {
+      this.setState({ errors: { name: 'Name is required' } });
+      return;
+    }
+
+    if (email === '') {
+      this.setState({ errors: { email: 'Email is required' } });
+      return;
+    }
+
+    if (phone === '') {
+      this.setState({ errors: { phone: 'Phone is required' } });
+      return;
+    }
+
+    const newContact = {
+      name,
+      email,
+      phone
+    };
+
+    //// SUBMIT CONTACT ////
+
+    // Clear State
+    this.setState({
       name: '',
       email: '',
       phone: '',
       errors: {}
-    };
-
-    onChange = (e) => this.setState({
-        [e.target.name]: e.target.value
     });
 
-    onSubmit = async (dispatch, e) => {
-      e.preventDefault();
-      const { name, email, phone } = this.state;
+    this.props.history.push('/');
+  };
 
-      // Check For Errors
-      if (name === '') {
-          this.setState({
-              errors: { name: 'Обязательное поле' }
-          });
-          return;
-      }
-      if (email === '') {
-          this.setState({
-              errors: { email: 'Обязательное поле' }
-          });
-          return;
-      }
-      if (phone === '') {
-          this.setState({
-              errors: { phone: 'Обязательное поле' }
-          });
-          return;
-      }
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-      const newContact = {
-          name,
-          email,
-          phone
-      };
+  render() {
+    const { name, email, phone, errors } = this.state;
 
-      const res = await axios.post('https://jsonplaceholder.typicode.com/users', newContact)
-
-      dispatch({
-          type: 'ADD_CONTACT',
-          payload: res.data
-      });
-
-
-      // Clear State
-      this.setState({
-          name: '',
-          email: '',
-          phone: '',
-          errors: {}
-      });
-
-      this.props.history.push('/');
-    };
-
-    render() {
-        const { name, email, phone, errors } = this.state;
-
-        return (
-            <Consumer>
-                {value => {
-                    const { dispatch } = value;
-
-                    return (
-                        <div className="my-4 card">
-                            <h2 className="card-header">Добавить контакт</h2>
-                            <div className="card-body">
-                                <form onSubmit={this.onSubmit.bind(this, dispatch)}>
-                                    <TextInputGroup
-                                        label="Имя"
-                                        name="name"
-                                        placeholder="Введите Имя ..."
-                                        value={name}
-                                        onChange={this.onChange}
-                                        error={errors.name}
-                                    />
-                                    <TextInputGroup
-                                        label="Email"
-                                        name="email"
-                                        type="email"
-                                        placeholder="Введите Email ..."
-                                        value={email}
-                                        onChange={this.onChange}
-                                        error={errors.email}
-                                    />
-                                    <TextInputGroup
-                                        label="Телефон"
-                                        name="phone"
-                                        type="phone"
-                                        placeholder="Введите Телефон ..."
-                                        value={phone}
-                                        onChange={this.onChange}
-                                        error={errors.phone}
-                                    />
-                                    <input
-                                        type="submit"
-                                        value="Добавить контакт"
-                                        className="btn btn-block btn-primary"
-                                    />
-                                </form>
-                            </div>
-                        </div>
-                    );
-                }}
-            </Consumer>
-        );
-    }
+    return (
+      <div className="card mb-3">
+        <div className="card-header">Add Contact</div>
+        <div className="card-body">
+          <form onSubmit={this.onSubmit}>
+            <TextInputGroup
+              label="Name"
+              name="name"
+              placeholder="Enter Name"
+              value={name}
+              onChange={this.onChange}
+              error={errors.name}
+            />
+            <TextInputGroup
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Enter Email"
+              value={email}
+              onChange={this.onChange}
+              error={errors.email}
+            />
+            <TextInputGroup
+              label="Phone"
+              name="phone"
+              placeholder="Enter Phone"
+              value={phone}
+              onChange={this.onChange}
+              error={errors.phone}
+            />
+            <input
+              type="submit"
+              value="Add Contact"
+              className="btn btn-light btn-block"
+            />
+          </form>
+        </div>
+      </div>
+    );
+  }
 }
-
-AddContact.propTypes = {
-};
 
 export default AddContact;
