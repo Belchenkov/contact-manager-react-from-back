@@ -34,17 +34,17 @@ class EditContact extends Component {
 
     // Check For Errors
     if (name === '') {
-      this.setState({ errors: { name: 'Name is required' } });
+      this.setState({ errors: { name: 'Обязательное поле' } });
       return;
     }
 
     if (email === '') {
-      this.setState({ errors: { email: 'Email is required' } });
+      this.setState({ errors: { email: 'Обязательное поле' } });
       return;
     }
 
     if (phone === '') {
-      this.setState({ errors: { phone: 'Phone is required' } });
+      this.setState({ errors: { phone: 'Обязательное поле' } });
       return;
     }
 
@@ -78,13 +78,13 @@ class EditContact extends Component {
 
     return (
       <div className="card mb-3">
-        <div className="card-header">Edit Contact</div>
+        <h3 className="card-header">Редактировать контакт</h3>
         <div className="card-body">
           <form onSubmit={this.onSubmit}>
             <TextInputGroup
-              label="Name"
+              label="Имя"
               name="name"
-              placeholder="Enter Name"
+              placeholder="Введите Имя ..."
               value={name}
               onChange={this.onChange}
               error={errors.name}
@@ -93,23 +93,23 @@ class EditContact extends Component {
               label="Email"
               name="email"
               type="email"
-              placeholder="Enter Email"
+              placeholder="Введите Email ..."
               value={email}
               onChange={this.onChange}
               error={errors.email}
             />
             <TextInputGroup
-              label="Phone"
+              label="Телефон"
               name="phone"
-              placeholder="Enter Phone"
+              placeholder="Введите телефон ..."
               value={phone}
               onChange={this.onChange}
               error={errors.phone}
             />
             <input
               type="submit"
-              value="Update Contact"
-              className="btn btn-light btn-block"
+              value="Редактировать"
+              className="btn btn-outline-warning btn-block"
             />
           </form>
         </div>
